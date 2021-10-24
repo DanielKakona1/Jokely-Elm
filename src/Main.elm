@@ -12,10 +12,13 @@ main =
     Browser.element { init = init, update = update, subscriptions = subscriptions, view = view }
 
 
+type alias Categories = List String
+
+
 type Model
-    = Failure
+    = Failure -- ??? why did it fail
     | Loading
-    | Success (List String)
+    | Success Categories
 
 
 getCategories : Cmd Msg
@@ -25,14 +28,30 @@ getCategories =
         , expect = Http.expectJson GotCategories (Json.Decode.list Json.Decode.string)
         }
 
+        {-
+        GET HTTP 1.0 https://api.chucknorris.io/jokes/categories
+        some headers ..
+        ...
+        Response:
+        Content-Type: application/json
+        [
+            "joke1",
+            "joke2",
+            "joke3",
+            "joke4",
+        ]
+        -}
+
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( Loading, getCategories )
 
 
+type alias CatetoriesResult = Result Http.Error Categories
+
 type Msg
-    = GotCategories (Result Http.Error (List String))
+    = GotCategories CatetoriesResult 
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -40,25 +59,11 @@ update msg model =
     case msg of
         GotCategories result ->
             case result of
-                Ok data ->
-                    ( Success data, Cmd.none )
+                Ok categories ->
+                    ( Success categories, Cmd.none )
 
-                Err httpError ->
-                    case httpError of
-                        Http.BadUrl message ->
-                            ( Failure, Cmd.none )
-
-                        Http.Timeout ->
-                            ( Failure, Cmd.none )
-
-                        Http.NetworkError ->
-                            ( Failure, Cmd.none )
-
-                        Http.BadStatus statusCode ->
-                            ( Failure, Cmd.none )
-
-                        Http.BadBody message ->
-                            ( Failure, Cmd.none )
+                Err _ ->
+                    ( Failure, Cmd.none )
 
 
 view : Model -> Html Msg

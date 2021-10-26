@@ -1,18 +1,23 @@
 module Main exposing (..)
 
 import Browser
+import Browser.Navigation as Nav
 import Html exposing (Html, a, br, button, div, h1, h4, hr, img, input, li, nav, span, text)
-import Html.Attributes exposing (placeholder, src, style)
+import Html.Attributes exposing (href, placeholder, src, style)
 import Html.Events exposing (onClick)
 import Http
 import Json.Decode exposing (Decoder, field, string)
+import Url
+import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
 
 
+main : Program () Model Msg
 main =
     Browser.element { init = init, update = update, subscriptions = subscriptions, view = view }
 
 
-type alias Categories = List String
+type alias Categories =
+    List String
 
 
 type Model
@@ -28,30 +33,18 @@ getCategories =
         , expect = Http.expectJson GotCategories (Json.Decode.list Json.Decode.string)
         }
 
-        {-
-        GET HTTP 1.0 https://api.chucknorris.io/jokes/categories
-        some headers ..
-        ...
-        Response:
-        Content-Type: application/json
-        [
-            "joke1",
-            "joke2",
-            "joke3",
-            "joke4",
-        ]
-        -}
-
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( Loading, getCategories )
 
 
-type alias CatetoriesResult = Result Http.Error Categories
+type alias CatetoriesResult =
+    Result Http.Error Categories
+
 
 type Msg
-    = GotCategories CatetoriesResult 
+    = GotCategories CatetoriesResult
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -139,13 +132,20 @@ displayCategories cat =
             , style "padding" "10px"
             , style "border-radius" "4px"
             , style "background-color" "#16a085"
-            , style "color" "#ffff"
             ]
-            [ a []
-                [ text cat
-                ]
-            ]
+            [ viewLink cat ]
         ]
+
+
+viewLink : String -> Html msg
+viewLink path =
+    a
+        [ href ("joke/" ++ path)
+        , style "color" "#ffff"
+        , style "cursor" "pointer"
+        , style "text-decoration" "none"
+        ]
+        [ text path ]
 
 
 subscriptions : Model -> Sub Msg

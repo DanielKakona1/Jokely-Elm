@@ -1,18 +1,10 @@
 module Services exposing (..)
 
-import DataModel exposing (..)
 import Http
 import Json.Decode exposing (Decoder, field, string)
-import Url
-import Url.Parser exposing ((</>), Parser, int, map, oneOf, parse, s, string, top)
-
-
-routeParser : Parser (Route -> a) a
-routeParser =
-    oneOf
-        [ map Index top
-        , map Jokes (s "jokes" </> Url.Parser.string)
-        ]
+import Messages exposing (..)
+import Models exposing (..)
+import Routes exposing (..)
 
 
 getCategories : Cmd Msg

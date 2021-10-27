@@ -1,9 +1,10 @@
-module JokesP exposing (..)
+module Jokes exposing (..)
 
-import DataModel exposing (..)
 import Html exposing (Html, a, br, button, div, h1, h4, hr, img, input, li, nav, span, text)
 import Html.Attributes exposing (href, placeholder, src, style)
 import Html.Events exposing (onClick)
+import Messages exposing (..)
+import Models exposing (..)
 
 
 viewJokes : String -> Model -> Html Msg
@@ -60,7 +61,7 @@ viewJokes cat model =
             , style "width" "100%"
             ]
             [ button
-                [ onClick GoBackPlease
+                [ onClick GoBackButtonClicked
                 , style "cursor" "pointer"
                 , style "border" "0"
                 , style "text-align" "center"
@@ -71,7 +72,7 @@ viewJokes cat model =
                 [ viewGoBack "go back 🔙" ]
             , div []
                 [ button
-                    [ onClick (MorePlease cat)
+                    [ onClick (OtherJokeButtonClicked cat)
                     , style "cursor" "pointer"
                     , style "border" "0"
                     , style "text-align" "center"

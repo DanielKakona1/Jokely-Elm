@@ -1,9 +1,9 @@
 module Home exposing (..)
 
-import DataModel exposing (..)
 import Html exposing (Html, a, br, button, div, h1, h4, hr, img, input, li, nav, span, text)
 import Html.Attributes exposing (href, placeholder, src, style)
 import Html.Events exposing (onClick)
+import Models exposing (..)
 
 
 viewIndex : Model -> Html msg

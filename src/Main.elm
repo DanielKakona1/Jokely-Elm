@@ -2,14 +2,16 @@ module Main exposing (..)
 
 import Browser
 import Browser.Navigation as Nav
-import DataModel exposing (..)
 import Home exposing (..)
 import Html exposing (Html, a, br, button, div, h1, h4, hr, img, input, li, nav, span, text)
 import Html.Attributes exposing (href, placeholder, src, style)
 import Html.Events exposing (onClick)
 import Http
-import JokesP exposing (..)
+import Jokes exposing (..)
 import Json.Decode exposing (Decoder, field, string)
+import Messages exposing (..)
+import Models exposing (..)
+import Routes exposing (..)
 import Services exposing (..)
 import Url
 import Url.Parser exposing ((</>), Parser, int, map, oneOf, parse, s, string, top)
@@ -43,7 +45,7 @@ update msg model =
                 Err _ ->
                     ( { model | dModel = Failure }, Cmd.none )
 
-        GoBackPlease ->
+        GoBackButtonClicked ->
             ( { model | dModel = Loading }, getCategories )
 
         GotJokes result ->
@@ -54,7 +56,7 @@ update msg model =
                 Err _ ->
                     ( { model | dModel = Failure }, Cmd.none )
 
-        MorePlease cat ->
+        OtherJokeButtonClicked cat ->
             ( { model | dModel = Loading }, getJokes cat )
 
         LinkClicked urlRequest ->
@@ -83,7 +85,7 @@ update msg model =
                             , Cmd.none
                             )
 
-                        Jokes cat ->
+                        Joke cat ->
                             ( { model | route = newRoute }
                             , getJokes cat
                             )
@@ -102,7 +104,7 @@ view model =
                 Index ->
                     viewIndex model
 
-                Jokes cat ->
+                Joke cat ->
                     viewJokes cat model
 
                 NotFound ->

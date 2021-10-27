@@ -4547,10 +4547,10 @@ function _Url_percentDecode(string)
 	{
 		return $elm$core$Maybe$Nothing;
 	}
-}var $author$project$Main$LinkClicked = function (a) {
+}var $author$project$DataModel$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
-var $author$project$Main$UrlChanged = function (a) {
+var $author$project$DataModel$UrlChanged = function (a) {
 	return {$: 'UrlChanged', a: a};
 };
 var $elm$core$Basics$EQ = {$: 'EQ'};
@@ -5342,13 +5342,13 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$application = _Browser_application;
-var $author$project$Main$Index = {$: 'Index'};
-var $author$project$Main$Loading = {$: 'Loading'};
-var $author$project$Main$Model = F4(
+var $author$project$DataModel$Index = {$: 'Index'};
+var $author$project$DataModel$Loading = {$: 'Loading'};
+var $author$project$DataModel$Model = F4(
 	function (key, url, route, dModel) {
 		return {dModel: dModel, key: key, route: route, url: url};
 	});
-var $author$project$Main$GotCategories = function (a) {
+var $author$project$DataModel$GotCategories = function (a) {
 	return {$: 'GotCategories', a: a};
 };
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
@@ -6140,42 +6140,42 @@ var $elm$http$Http$get = function (r) {
 };
 var $elm$json$Json$Decode$list = _Json_decodeList;
 var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Main$getCategories = $elm$http$Http$get(
+var $author$project$Services$getCategories = $elm$http$Http$get(
 	{
 		expect: A2(
 			$elm$http$Http$expectJson,
-			$author$project$Main$GotCategories,
+			$author$project$DataModel$GotCategories,
 			$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
 		url: 'https://api.chucknorris.io/jokes/categories'
 	});
 var $author$project$Main$init = F3(
 	function (flags, url, key) {
 		return _Utils_Tuple2(
-			A4($author$project$Main$Model, key, url, $author$project$Main$Index, $author$project$Main$Loading),
-			$author$project$Main$getCategories);
+			A4($author$project$DataModel$Model, key, url, $author$project$DataModel$Index, $author$project$DataModel$Loading),
+			$author$project$Services$getCategories);
 	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (model) {
 	return $elm$core$Platform$Sub$none;
 };
-var $author$project$Main$Failure = {$: 'Failure'};
-var $author$project$Main$FectchJokes = function (a) {
+var $author$project$DataModel$Failure = {$: 'Failure'};
+var $author$project$DataModel$FectchJokes = function (a) {
 	return {$: 'FectchJokes', a: a};
 };
-var $author$project$Main$NotFound = {$: 'NotFound'};
-var $author$project$Main$Success = function (a) {
+var $author$project$DataModel$NotFound = {$: 'NotFound'};
+var $author$project$DataModel$Success = function (a) {
 	return {$: 'Success', a: a};
 };
-var $author$project$Main$GotJokes = function (a) {
+var $author$project$DataModel$GotJokes = function (a) {
 	return {$: 'GotJokes', a: a};
 };
 var $elm$json$Json$Decode$field = _Json_decodeField;
-var $author$project$Main$gifDecoder = A2($elm$json$Json$Decode$field, 'value', $elm$json$Json$Decode$string);
-var $author$project$Main$getJokes = function (cat) {
+var $author$project$Services$jokesDecoder = A2($elm$json$Json$Decode$field, 'value', $elm$json$Json$Decode$string);
+var $author$project$Services$getJokes = function (cat) {
 	return $elm$http$Http$get(
 		{
-			expect: A2($elm$http$Http$expectJson, $author$project$Main$GotJokes, $author$project$Main$gifDecoder),
+			expect: A2($elm$http$Http$expectJson, $author$project$DataModel$GotJokes, $author$project$Services$jokesDecoder),
 			url: 'https://api.chucknorris.io/jokes/random?category=' + cat
 		});
 };
@@ -6302,7 +6302,7 @@ var $elm$url$Url$Parser$parse = F2(
 					$elm$core$Basics$identity)));
 	});
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
-var $author$project$Main$Jokes = function (a) {
+var $author$project$DataModel$Jokes = function (a) {
 	return {$: 'Jokes', a: a};
 };
 var $elm$url$Url$Parser$Parser = function (a) {
@@ -6445,13 +6445,13 @@ var $elm$url$Url$Parser$top = $elm$url$Url$Parser$Parser(
 		return _List_fromArray(
 			[state]);
 	});
-var $author$project$Main$routeParser = $elm$url$Url$Parser$oneOf(
+var $author$project$Services$routeParser = $elm$url$Url$Parser$oneOf(
 	_List_fromArray(
 		[
-			A2($elm$url$Url$Parser$map, $author$project$Main$Index, $elm$url$Url$Parser$top),
+			A2($elm$url$Url$Parser$map, $author$project$DataModel$Index, $elm$url$Url$Parser$top),
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Main$Jokes,
+			$author$project$DataModel$Jokes,
 			A2(
 				$elm$url$Url$Parser$slash,
 				$elm$url$Url$Parser$s('jokes'),
@@ -6512,22 +6512,22 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								dModel: $author$project$Main$Success(categories)
+								dModel: $author$project$DataModel$Success(categories)
 							}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{dModel: $author$project$Main$Failure}),
+							{dModel: $author$project$DataModel$Failure}),
 						$elm$core$Platform$Cmd$none);
 				}
 			case 'GoBackPlease':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{dModel: $author$project$Main$Loading}),
-					$author$project$Main$getCategories);
+						{dModel: $author$project$DataModel$Loading}),
+					$author$project$Services$getCategories);
 			case 'GotJokes':
 				var result = msg.a;
 				if (result.$ === 'Ok') {
@@ -6536,14 +6536,14 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								dModel: $author$project$Main$FectchJokes(joke)
+								dModel: $author$project$DataModel$FectchJokes(joke)
 							}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{dModel: $author$project$Main$Failure}),
+							{dModel: $author$project$DataModel$Failure}),
 						$elm$core$Platform$Cmd$none);
 				}
 			case 'MorePlease':
@@ -6551,8 +6551,8 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{dModel: $author$project$Main$Loading}),
-					$author$project$Main$getJokes(cat));
+						{dModel: $author$project$DataModel$Loading}),
+					$author$project$Services$getJokes(cat));
 			case 'LinkClicked':
 				var urlRequest = msg.a;
 				if (urlRequest.$ === 'Internal') {
@@ -6571,12 +6571,12 @@ var $author$project$Main$update = F2(
 				}
 			default:
 				var url = msg.a;
-				var _v4 = A2($elm$url$Url$Parser$parse, $author$project$Main$routeParser, url);
+				var _v4 = A2($elm$url$Url$Parser$parse, $author$project$Services$routeParser, url);
 				if (_v4.$ === 'Nothing') {
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{route: $author$project$Main$NotFound}),
+							{route: $author$project$DataModel$NotFound}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					var urlr = _v4.a;
@@ -6586,7 +6586,7 @@ var $author$project$Main$update = F2(
 							return _Utils_Tuple2(
 								_Utils_update(
 									model,
-									{route: $author$project$Main$Index}),
+									{route: $author$project$DataModel$Index}),
 								$elm$core$Platform$Cmd$none);
 						case 'Jokes':
 							var cat = newRoute.a;
@@ -6594,12 +6594,12 @@ var $author$project$Main$update = F2(
 								_Utils_update(
 									model,
 									{route: newRoute}),
-								$author$project$Main$getJokes(cat));
+								$author$project$Services$getJokes(cat));
 						default:
 							return _Utils_Tuple2(
 								_Utils_update(
 									model,
-									{route: $author$project$Main$NotFound}),
+									{route: $author$project$DataModel$NotFound}),
 								$elm$core$Platform$Cmd$none);
 					}
 				}
@@ -6627,7 +6627,7 @@ var $elm$html$Html$Attributes$href = function (url) {
 };
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$viewLink = function (path) {
+var $author$project$Home$viewLink = function (path) {
 	return A2(
 		$elm$html$Html$a,
 		_List_fromArray(
@@ -6642,7 +6642,7 @@ var $author$project$Main$viewLink = function (path) {
 				$elm$html$Html$text(path)
 			]));
 };
-var $author$project$Main$displayCategories = function (cat) {
+var $author$project$Home$displayCategories = function (cat) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -6664,14 +6664,14 @@ var $author$project$Main$displayCategories = function (cat) {
 					]),
 				_List_fromArray(
 					[
-						$author$project$Main$viewLink(cat)
+						$author$project$Home$viewLink(cat)
 					]))
 			]));
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h4 = _VirtualDom_node('h4');
 var $elm$html$Html$span = _VirtualDom_node('span');
-var $author$project$Main$viewIndex = function (model) {
+var $author$project$Home$viewIndex = function (model) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -6762,7 +6762,7 @@ var $author$project$Main$viewIndex = function (model) {
 													A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
 													A2($elm$html$Html$Attributes$style, 'justify-content', 'center')
 												]),
-											A2($elm$core$List$map, $author$project$Main$displayCategories, data));
+											A2($elm$core$List$map, $author$project$Home$displayCategories, data));
 									default:
 										return $elm$html$Html$text('Loading...111');
 								}
@@ -6771,8 +6771,8 @@ var $author$project$Main$viewIndex = function (model) {
 					]))
 			]));
 };
-var $author$project$Main$GoBackPlease = {$: 'GoBackPlease'};
-var $author$project$Main$MorePlease = function (a) {
+var $author$project$DataModel$GoBackPlease = {$: 'GoBackPlease'};
+var $author$project$DataModel$MorePlease = function (a) {
 	return {$: 'MorePlease', a: a};
 };
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
@@ -6792,7 +6792,7 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $author$project$Main$viewGoBack = function (path) {
+var $author$project$JokesP$viewGoBack = function (path) {
 	return A2(
 		$elm$html$Html$a,
 		_List_fromArray(
@@ -6807,7 +6807,7 @@ var $author$project$Main$viewGoBack = function (path) {
 				$elm$html$Html$text(path)
 			]));
 };
-var $author$project$Main$viewJokes = F2(
+var $author$project$JokesP$viewJokes = F2(
 	function (cat, model) {
 		return A2(
 			$elm$html$Html$div,
@@ -6896,7 +6896,7 @@ var $author$project$Main$viewJokes = F2(
 							$elm$html$Html$button,
 							_List_fromArray(
 								[
-									$elm$html$Html$Events$onClick($author$project$Main$GoBackPlease),
+									$elm$html$Html$Events$onClick($author$project$DataModel$GoBackPlease),
 									A2($elm$html$Html$Attributes$style, 'cursor', 'pointer'),
 									A2($elm$html$Html$Attributes$style, 'border', '0'),
 									A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
@@ -6906,7 +6906,7 @@ var $author$project$Main$viewJokes = F2(
 								]),
 							_List_fromArray(
 								[
-									$author$project$Main$viewGoBack('go back 🔙')
+									$author$project$JokesP$viewGoBack('go back 🔙')
 								])),
 							A2(
 							$elm$html$Html$div,
@@ -6918,7 +6918,7 @@ var $author$project$Main$viewJokes = F2(
 									_List_fromArray(
 										[
 											$elm$html$Html$Events$onClick(
-											$author$project$Main$MorePlease(cat)),
+											$author$project$DataModel$MorePlease(cat)),
 											A2($elm$html$Html$Attributes$style, 'cursor', 'pointer'),
 											A2($elm$html$Html$Attributes$style, 'border', '0'),
 											A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
@@ -6940,12 +6940,12 @@ var $author$project$Main$view = function (model) {
 		var _v0 = model.route;
 		switch (_v0.$) {
 			case 'Index':
-				return $author$project$Main$viewIndex(model);
+				return $author$project$Home$viewIndex(model);
 			case 'Jokes':
 				var cat = _v0.a;
-				return A2($author$project$Main$viewJokes, cat, model);
+				return A2($author$project$JokesP$viewJokes, cat, model);
 			default:
-				return $author$project$Main$viewIndex(model);
+				return $author$project$Home$viewIndex(model);
 		}
 	}();
 	return {
@@ -6955,6 +6955,6 @@ var $author$project$Main$view = function (model) {
 	};
 };
 var $author$project$Main$main = $elm$browser$Browser$application(
-	{init: $author$project$Main$init, onUrlChange: $author$project$Main$UrlChanged, onUrlRequest: $author$project$Main$LinkClicked, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
+	{init: $author$project$Main$init, onUrlChange: $author$project$DataModel$UrlChanged, onUrlRequest: $author$project$DataModel$LinkClicked, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
